@@ -21,7 +21,7 @@ type Dd = {
     xy: XY
 }
 
-let ddd: [Dd, Dd]
+let ddd: Dd[]
 
 let lines_t: number
 let waves_t: number
@@ -33,7 +33,14 @@ function _init() {
     waves_t = 0
     dots_t = 0
 
-    ddd = [{ xy: [0, 0] }, { xy: [100, 100] }]
+    ddd = [
+        { xy: [0, 0] }, 
+        { xy: [100, 100] },
+        { xy: [100, 100] },
+        { xy: [100, 100] },
+        { xy: [100, 100] },
+        { xy: [100, 100] },
+    ]
 
     cursor_xy = [500, 500]
     cursor_dxy = [0, 0, 500, 500]
@@ -52,14 +59,17 @@ function _update(delta: number) {
 
     if (cursor_intersect(lines_box)) {
         lines_t += delta
+        lines_t = lines_t % 100000
     }
 
     if (cursor_intersect(waves_box)) {
         waves_t += delta
+        waves_t = waves_t % 100000
     }
 
     if (cursor_intersect(dots_box)) {
         dots_t += delta
+        dots_t = dots_t % 100000
     }
 
     let is_hovering = drag.is_hovering
@@ -172,8 +182,10 @@ function _render() {
 
 function dots(t: number) {
     cx.save()
+    cx.fillStyle = colors.black
+    cx.fillRect(0, 0, 1920, 1080)
     cx.rotate(Math.PI * 0.25)
-    cx.strokeStyle = colors.black
+    cx.strokeStyle = colors.white
     cx.lineWidth = 8
     cx.beginPath()
     for (let j = -20; j < 20; j++) {
@@ -235,7 +247,10 @@ function dots(t: number) {
 
 function waves(t: number) {
 
-    cx.strokeStyle = colors.black
+    cx.fillStyle = colors.black
+    cx.fillRect(0, 0, 1920, 1080)
+
+    cx.strokeStyle = colors.white
     cx.lineWidth = 8
     cx.save()
     cx.rotate(Math.PI * 0.25)
@@ -295,8 +310,12 @@ export function dot(x: number, y: number) {
 }
 
 function lines(t: number) {
+
+    cx.fillStyle = colors.black
+    cx.fillRect(0, 0, 1920, 1080)
+
     cx.lineWidth = 8
-    cx.strokeStyle = colors.black
+    cx.strokeStyle = colors.white
     cx.beginPath()
     for (let i = -10; i < 10; i++) {
         cx.moveTo(t + 0 + i * 100, 0)
@@ -319,7 +338,7 @@ function card(x: number, y: number) {
     rect(x, y, 180, 240)
 
     rect(x, y - 130, 180, 100)
-    rect(x, y + 240 + 30, 180, 100)
+    rect(x, y + 240 + 30, 180, 180)
 }
 
 function cursor(x: number, y: number) {
