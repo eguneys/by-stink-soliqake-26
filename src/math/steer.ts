@@ -1,5 +1,5 @@
-import { rnd_float, RNG } from "../random";
-import { XYWH } from "../util";
+import { rnd_float, type RNG } from "./random";
+import { type XYWH } from "../util";
 import { Line, Matrix, Vec2 } from "./vec2";
 
 export type RigidOptions = {
